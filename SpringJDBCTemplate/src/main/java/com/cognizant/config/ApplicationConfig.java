@@ -4,15 +4,18 @@ import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.stereotype.Component;
+
+import com.cognizant.dao.StudentDao;
+import com.cognizant.dao.StudentDaoImpl;
 
 @Configuration
-@Component("com.cognizant")
+@ComponentScan("com.cognizant")
 @PropertySource("classpath:db.properties")
 public class ApplicationConfig {
 	
@@ -33,7 +36,14 @@ public class ApplicationConfig {
 	
 	@Bean
 	public JdbcTemplate jdbcTemplate() throws IOException {
-		JdbcTemplate jdbc = new JdbcTemplate(getDataSource());
+		JdbcTemplate jdbc = new JdbcTemplate();
+		jdbc.setDataSource(getDataSource());
 		return jdbc;
+	}
+	
+	@Bean("dao")
+	public StudentDaoImpl getDao() throws IOException {
+		StudentDaoImpl dao = new StudentDaoImpl();
+		return dao;
 	}
 }
