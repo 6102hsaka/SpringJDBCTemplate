@@ -2,21 +2,16 @@ package com.cognizant.dao;
 
 import java.util.List;
 
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-
-import com.cognizant.config.ApplicationConfig;
+import org.springframework.stereotype.Repository;
 import com.cognizant.model.Student;
 
+@Repository
 public class StudentDaoImpl implements StudentDao {
 	
-	JdbcTemplate jdbcTemplate = null;
-
-	public StudentDaoImpl() {
-		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(ApplicationConfig.class);
-		jdbcTemplate = context.getBean("jdbcTemplate",JdbcTemplate.class);
-	}
-	
+	@Autowired
+	private JdbcTemplate jdbcTemplate;
 
 	public boolean insert(Student student) {
 		String sql = "Insert into student values(?,?)";
