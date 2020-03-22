@@ -1,5 +1,8 @@
 package com.cognizant.service;
 
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+import com.cognizant.config.ApplicationConfig;
 import com.cognizant.dao.StudentDao;
 import com.cognizant.dao.StudentDaoImpl;
 import com.cognizant.model.Student;
@@ -8,7 +11,9 @@ public class StudentService {
 	
 	public static void main(String[] args) {
 		
-		StudentDao studentDao = new StudentDaoImpl();
+		@SuppressWarnings("resource")
+		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(ApplicationConfig.class);
+		StudentDao studentDao = context.getBean("dao", StudentDaoImpl.class);
 		
 		Student s1 = new Student(1, "Akash");
 		Student s2 = new Student(2, "Samir");
